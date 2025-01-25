@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import * as jose from 'jose'
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  if (request.nextUrl.pathname.startsWith('/admin') || request.nextUrl.pathname.startsWith('/api/admin')) {
     const token = request.cookies.get('auth_token')
 
     if (!token) {
@@ -32,5 +32,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/admin/:path*'
+  matcher: [
+    '/admin/:path*',
+    '/api/admin/:path*'
+  ]
 } 
