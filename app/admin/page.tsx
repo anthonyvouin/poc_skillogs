@@ -1,10 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import QuestionList from '../components/admin/QuestionList'
 
 export default function AdminPage() {
-  const router = useRouter()
 
 
   return (
