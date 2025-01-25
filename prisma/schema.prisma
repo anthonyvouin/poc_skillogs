@@ -9,9 +9,9 @@ datasource db {
 
 model Question {
   id         String   @id @default(cuid())
-  categorie  String
+  categorie  String   
   question   String   @unique
-  reponse    String
+  reponse    String   @db.Text
   mots_cles  String[]
   actif      Boolean  @default(true)
   createdAt  DateTime @default(now())

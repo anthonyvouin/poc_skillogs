@@ -9,45 +9,31 @@ async function main() {
     data: {
       email_rh: "rh@entreprise.fr",
       telephone_rh: "01 23 45 67 89",
-      reponse_defaut: "Je ne peux pas répondre à cette question. Veuillez contacter le service RH."
+      reponse_defaut: "Je ne peux pas répondre à cette question. Veuillez contacter le service RH par email : rh@entreprise.fr ou par téléphone : 01 23 45 67 89"
     }
   })
 
   await prisma.question.createMany({
     data: [
       {
-        categorie: "conges",
-        question: "Combien de jours de congé me reste-t-il ?",
-        reponse: "Pour connaître votre solde de congés, connectez-vous à votre espace RH rubrique 'Mes congés'.",
-        mots_cles: ["congé", "solde", "reste", "jours"],
-        actif: true
-      },
-      {
-        categorie: "conges",
-        question: "Comment poser des congés ?",
-        reponse: "Pour poser des congés : 1) Connectez-vous à votre espace RH 2) Cliquez sur 'Demande de congés' 3) Sélectionnez vos dates 4) Validez la demande",
-        mots_cles: ["congé", "poser", "demande", "comment"],
-        actif: true
-      },
-      {
         categorie: "paie",
-        question: "Quand sera versé mon prochain salaire ?",
+        question: "Quand est versé le salaire ?",
         reponse: "Les salaires sont versés le 25 de chaque mois. Si cette date tombe un weekend, le versement est effectué le jour ouvré précédent.",
-        mots_cles: ["salaire", "paie", "versement", "quand"],
+        mots_cles: ["quand", "date", "versement", "salaire", "paye", "versé"],
         actif: true
       },
       {
         categorie: "paie",
-        question: "Comment accéder à mes bulletins de paie ?",
-        reponse: "Vos bulletins de paie sont disponibles dans votre espace RH, rubrique 'Mes documents' > 'Bulletins de paie'.",
-        mots_cles: ["bulletin", "paie", "fiche", "salaire"],
+        question: "Comment obtenir une attestation de salaire ?",
+        reponse: "Pour obtenir une attestation de salaire, faites la demande via votre espace RH rubrique 'Mes documents' > 'Demande d'attestation'",
+        mots_cles: ["attestation", "document", "certificat", "obtenir"],
         actif: true
       },
       {
         categorie: "processus_internes",
-        question: "Comment faire une demande de télétravail ?",
-        reponse: "Pour faire une demande de télétravail : 1) Espace RH > 'Mes demandes' > 'Télétravail' 2) Remplissez le formulaire 3) Votre manager recevra une notification pour validation",
-        mots_cles: ["télétravail", "demande", "remote", "distance"],
+        question: "Quelle est la procédure en cas d'arrêt maladie ?",
+        reponse: "En cas d'arrêt maladie : 1) Informez votre manager 2) Envoyez votre arrêt de travail sous 48h au service RH 3) Tenez-nous informés de la durée",
+        mots_cles: ["maladie", "arrêt", "absence", "procédure", "malade"],
         actif: true
       }
     ]
@@ -61,4 +47,4 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect()
-  }) 
+  })
