@@ -1,9 +1,23 @@
 const { PrismaClient } = require('@prisma/client')
+const bcrypt = require('bcryptjs')
 const prisma = new PrismaClient()
 
 async function main() {
   await prisma.question.deleteMany()
   await prisma.configuration.deleteMany()
+  await prisma.user.deleteMany()
+
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash('passwordadmin', salt)
+
+  await prisma.user.create({
+    data: {
+      email: "admin@imparare.fr",
+      password: hashedPassword,
+      nom: "Admin Imparare",
+      createdAt: new Date()
+    }
+  })
 
   await prisma.configuration.create({
     data: {
@@ -15,7 +29,6 @@ async function main() {
 
   await prisma.question.createMany({
     data: [
-      // ... vos questions existantes ...
       {
         categorie: "processus_internes",
         question: "Quelle est la procédure en cas d'arrêt maladie ?",

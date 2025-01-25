@@ -30,6 +30,5 @@ model User {
   email     String   @unique
   password  String  
   nom       String
-  actif     Boolean  @default(true)
   createdAt DateTime @default(now())
 }
