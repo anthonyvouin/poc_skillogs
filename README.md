@@ -55,7 +55,7 @@ Une application web moderne permettant de gérer une base de connaissances sous 
 ### Lancer le projet
 
 
-2.Récupérer le projet :
+1.Récupérer le projet :
 ```bash
 git clone [url_du_repo]
 cd skillogs
