@@ -55,7 +55,7 @@ Une application web moderne permettant de gérer une base de connaissances sous 
 
 ### Stack Actuelle (POC)
 
-#### Next.js 14
+#### Next.js
 Choisi pour le POC pour plusieurs raisons :
 - **Développement Rapide** : Front et back dans le même projet
 - **API Routes** : Création rapide d'endpoints sans configuration complexe
