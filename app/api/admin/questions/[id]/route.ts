@@ -1,44 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 
-export async function GET() {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const questions = await prisma.question.findMany({
-      select: {
-        id: true,
-        categorie: true,
-        question: true,
-        reponse: true,
-        mots_cles: true,
-        actif: true,
-        createdAt: true,
-        updatedAt: true
-      },
-      orderBy: {
-        createdAt: 'desc'
+    const id = params.id
+
+    await prisma.question.delete({
+      where: {
+        id: id
       }
     })
 
     return NextResponse.json({
       success: true,
-      data: questions
+      message: 'Question supprimée avec succès'
     })
   } catch (error) {
-    console.error('Erreur lors de la récupération des questions:', error)
+    console.error('Erreur lors de la suppression de la question:', error)
     return NextResponse.json(
       {
         success: false,
-        message: 'Erreur lors de la récupération des questions'
+        message: 'Erreur lors de la suppression de la question'
       },
       { status: 500 }
     )
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
+    const id = params.id
     const body = await request.json()
-    
+
+    // Validation des données
     if (!body.question || !body.reponse || !body.categorie) {
       return NextResponse.json(
         {
@@ -49,7 +49,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const newQuestion = await prisma.question.create({
+    // Mise à jour de la question
+    const updatedQuestion = await prisma.question.update({
+      where: {
+        id: id
+      },
       data: {
         question: body.question,
         reponse: body.reponse,
@@ -60,16 +64,16 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Question créée avec succès',
-      data: newQuestion
+      message: 'Question mise à jour avec succès',
+      data: updatedQuestion
     })
 
   } catch (error) {
-    console.error('Erreur lors de la création de la question:', error)
+    console.error('Erreur lors de la mise à jour de la question:', error)
     return NextResponse.json(
       {
         success: false,
-        message: 'Erreur lors de la création de la question'
+        message: 'Erreur lors de la mise à jour de la question'
       },
       { status: 500 }
     )

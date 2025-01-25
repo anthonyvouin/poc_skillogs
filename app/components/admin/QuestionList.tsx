@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Question, QuestionResponse } from '@/app/types/question'
 import QuestionItem from './QuestionItem'
 import QuestionFilters from './QuestionFilters'
-
+import QuestionModal from './QuestionModal'
 
 export default function QuestionList() {
   const [questions, setQuestions] = useState<Question[]>([])
@@ -10,29 +10,115 @@ export default function QuestionList() {
   const [error, setError] = useState<string | null>(null)
   const [filteredQuestions, setFilteredQuestions] = useState<Question[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editingQuestion, setEditingQuestion] = useState<Question | null>(null)
 
+  const fetchQuestions = async () => {
+    try {
+      const response = await fetch('/api/admin/questions')
+      const data: QuestionResponse = await response.json()
+      
+      if (!data.success) {
+        throw new Error(data.message || 'Erreur lors du chargement des questions')
+      }
+
+      setQuestions(data.data)
+      setFilteredQuestions(
+        selectedCategory === 'all' 
+          ? data.data 
+          : data.data.filter(q => q.categorie === selectedCategory)
+      )
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Une erreur est survenue')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await fetch('/api/admin/questions')
-        const data: QuestionResponse = await response.json()
-        
-        if (!data.success) {
-          throw new Error(data.message || 'Erreur lors du chargement des questions')
-        }
-
-        setQuestions(data.data)
-        setFilteredQuestions(data.data)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Une erreur est survenue')
-      } finally {
-        setLoading(false)
-      }
-    }
-
     fetchQuestions()
   }, [])
+
+  const handleCreate = async (data: Omit<Question, 'id' | 'createdAt' | 'updatedAt'>) => {
+    try {
+      const response = await fetch('/api/admin/questions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (!result.success) {
+        throw new Error(result.message || 'Erreur lors de la création')
+      }
+
+      setIsModalOpen(false)
+      fetchQuestions()
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Erreur lors de la création')
+    }
+  }
+
+  const handleUpdate = async (data: Omit<Question, 'id' | 'createdAt' | 'updatedAt'>) => {
+    if (!editingQuestion) return
+
+    try {
+      const response = await fetch(`/api/admin/questions/${editingQuestion.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (!result.success) {
+        throw new Error(result.message || 'Erreur lors de la mise à jour')
+      }
+
+      setIsModalOpen(false)
+      setEditingQuestion(null)
+      fetchQuestions()
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Erreur lors de la mise à jour')
+    }
+  }
+
+  const handleEdit = (question: Question) => {
+    setEditingQuestion(question)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setEditingQuestion(null)
+  }
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cette question ?')) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/admin/questions/${id}`, {
+        method: 'DELETE'
+      })
+      const data = await response.json()
+
+      if (!data.success) {
+        throw new Error(data.message || 'Erreur lors de la suppression')
+      }
+
+      fetchQuestions()
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Erreur lors de la suppression')
+    }
+  }
+
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
     if (category === 'all') {
@@ -69,7 +155,7 @@ export default function QuestionList() {
         </h1>
         <button
           className="bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition-colors"
-          onClick={() => {}}
+          onClick={() => setIsModalOpen(true)}
         >
           Nouvelle Question
         </button>
@@ -92,13 +178,20 @@ export default function QuestionList() {
               <QuestionItem 
                 key={question.id} 
                 question={question}
-                onDelete={() => {}}
-                onEdit={() => {}}
+                onDelete={() => handleDelete(question.id)}
+                onEdit={() => handleEdit(question)}
               />
             ))}
           </div>
         )}
       </div>
+
+      <QuestionModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={editingQuestion ? handleUpdate : handleCreate}
+        question={editingQuestion || undefined}
+      />
     </div>
   )
 } 
