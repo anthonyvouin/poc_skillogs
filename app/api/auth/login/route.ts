@@ -12,6 +12,7 @@ interface LoginResponse {
   success: boolean
   message: string
   token?: string
+  expiresIn?: number
 }
 
 interface JWTPayload {
@@ -80,7 +81,8 @@ export async function POST(request: Request) {
     return NextResponse.json<LoginResponse>({
       success: true,
       message: 'Connexion réussie',
-      token: token
+      token: token,
+      expiresIn: JWT_EXPIRES_IN
     })
 
   } catch (error) {

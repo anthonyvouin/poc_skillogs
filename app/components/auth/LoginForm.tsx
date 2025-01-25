@@ -29,7 +29,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
       const data = await response.json()
 
       if (data.success) {
-        document.cookie = `auth_token=${data.token}; path=/; max-age=${30 * 24 * 60 * 60}; secure; samesite=strict`
+        document.cookie = `auth_token=${data.token}; path=/; max-age=${data.expiresIn}; secure; samesite=strict`
         
         if (onSuccess) {
           onSuccess()

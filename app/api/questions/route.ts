@@ -62,9 +62,7 @@ export async function POST(request: Request) {
       }
     })
 
-    // Si on trouve des questions correspondantes
     if (questions.length > 0) {
-      // Amélioration du scoring
       const scoredQuestions: ScoredQuestion[] = questions.map((q: Question): ScoredQuestion => ({
         ...q,
         score: q.mots_cles.filter((mot: string): boolean => 
