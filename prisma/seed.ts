@@ -15,25 +15,19 @@ async function main() {
 
   await prisma.question.createMany({
     data: [
+      // ... vos questions existantes ...
       {
-        categorie: "paie",
-        question: "Quand est versé le salaire ?",
-        reponse: "Les salaires sont versés le 25 de chaque mois. Si cette date tombe un weekend, le versement est effectué le jour ouvré précédent.",
-        mots_cles: ["quand", "date", "versement", "salaire", "paye", "versé"],
+        categorie: "processus_internes",
+        question: "Quelle est la procédure en cas d'arrêt maladie ?",
+        reponse: "En cas d'arrêt maladie : 1) Informez votre manager 2) Envoyez votre arrêt de travail sous 48h au service RH 3) Tenez-nous informés de la durée",
+        mots_cles: ["maladie", "arrêt", "absence", "procédure", "malade"],
         actif: true
       },
       {
         categorie: "paie",
         question: "Comment obtenir une attestation de salaire ?",
         reponse: "Pour obtenir une attestation de salaire, faites la demande via votre espace RH rubrique 'Mes documents' > 'Demande d'attestation'",
-        mots_cles: ["attestation", "document", "certificat", "obtenir"],
-        actif: true
-      },
-      {
-        categorie: "processus_internes",
-        question: "Quelle est la procédure en cas d'arrêt maladie ?",
-        reponse: "En cas d'arrêt maladie : 1) Informez votre manager 2) Envoyez votre arrêt de travail sous 48h au service RH 3) Tenez-nous informés de la durée",
-        mots_cles: ["maladie", "arrêt", "absence", "procédure", "malade"],
+        mots_cles: ["attestation", "salaire", "document", "certificat"],
         actif: true
       }
     ]
