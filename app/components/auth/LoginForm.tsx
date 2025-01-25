@@ -42,7 +42,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
       } else {
         setError(data.message)
       }
-    } catch (err) {
+    } catch {
       setError('Une erreur est survenue')
     } finally {
       setIsLoading(false)
