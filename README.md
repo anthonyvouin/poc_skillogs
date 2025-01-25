@@ -1,3 +1,7 @@
+# Skillogs - Lien vers le site
+
+https://poc-skillogs.vercel.app/
+
 # Skillogs - Chatbot de Questions/Réponses
 
 Une application web moderne permettant de gérer une base de connaissances sous forme de questions/réponses, avec une interface d'administration sécurisée et un chatbot pour les utilisateurs.
