@@ -24,3 +24,12 @@ model Configuration {
   telephone_rh   String
   reponse_defaut String
 }
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String  
+  nom       String
+  actif     Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
