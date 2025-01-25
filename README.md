@@ -51,6 +51,74 @@ Une application web moderne permettant de gérer une base de connaissances sous 
      * Prévisualisation
      * Gestion des mots-clés
 
+## 🛠️ Stack Technique & Choix Technologiques
+
+### Stack Actuelle (POC)
+
+#### Next.js 14
+Choisi pour le POC pour plusieurs raisons :
+- **Développement Rapide** : Front et back dans le même projet
+- **API Routes** : Création rapide d'endpoints sans configuration complexe
+- **App Router** : Routing moderne et performant
+- **Full-Stack** : Un seul langage (TypeScript) pour tout le projet
+- **Déploiement Simplifié** : Déploiement facile sur Vercel
+- **Hot Reload** : Développement fluide et rapide
+
+#### PostgreSQL
+Base de données choisie pour :
+- **Fiabilité** : SGBD mature et stable
+- **Performances** : Excellentes performances pour les requêtes complexes
+- **JSON natif** : Support natif des données JSON
+- **Scalabilité** : Possibilité de monter en charge
+- **Hébergement facile** : Nombreuses options d'hébergement (Vercel, Supabase, etc.)
+
+#### Prisma
+ORM moderne offrant :
+- **Type Safety** : Typage fort avec TypeScript
+- **Migrations automatiques** : Gestion facile des schémas
+- **Client généré** : Auto-complétion et validation
+- **Studio** : Interface de gestion de la base de données
+
+### Stack Recommandée pour Production
+
+Pour une version production, une architecture plus robuste serait recommandée :
+
+#### Backend : NestJS
+Avantages pour une application en production :
+- **Architecture robuste** : Structure modulaire et organisée
+- **Scalabilité** : Meilleure gestion des gros projets
+- **Microservices** : Support natif des microservices
+- **Dependency Injection** : Architecture plus testable
+- **Documentation** : Swagger intégré
+- **Sécurité** : Nombreux modules de sécurité intégrés
+- **Performances** : Excellentes performances en production
+- **WebSockets** : Gestion native des WebSockets
+- **Caching** : Système de cache intégré
+- **Queue** : Gestion des tâches asynchrones
+
+#### Frontend : Angular
+Idéal pour une application enterprise :
+- **TypeScript natif** : Typage fort par défaut
+- **RxJS** : Gestion avancée des états et événements
+- **Modules** : Organisation claire du code
+- **Tests** : Environnement de test complet
+- **Performances** : Excellent pour les grosses applications
+- **Sécurité** : Sécurité renforcée par défaut
+- **Maintenance** : Plus facile à maintenir sur le long terme
+- **Enterprise Ready** : Parfait pour les applications professionnelles
+
+#### Base de données : PostgreSQL (maintenu)
+Avec ajouts :
+- **Réplication** : Pour la haute disponibilité
+- **Sharding** : Pour la scalabilité horizontale
+- **Backup automatisé** : Pour la sécurité des données
+- **Monitoring** : Outils de surveillance
+
+#### Infrastructure Additionnelle
+Pour une version production :
+- **Docker** : Conteneurisation
+- **CI/CD** : Pipeline d'intégration continue
+
 
 ### Lancer le projet
 
